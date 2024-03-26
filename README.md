@@ -206,7 +206,7 @@ Go library which is used to parse and generate .tf.
 
 ## Caveats
 
-- There is not currently no support for comments, meaning any comments on the original input are removed from the resulting HCL output
+- There is not currently support for comments, meaning any comments on the original input are removed from the resulting HCL output
 - In order to maintain deterministic output, all attributes (module arguments etc.) are alphabetically sorted, which may result in unexpected diffs
 - All attribute values are strings (the `attributes` field is a `map[string]string`). This is required  due to how the underlying libraries are used. For this purpose, real strings must be double quoted (e.g. `"\"t2.micro\""`) and non-strings (of any type) should be single quoted (e.g. `"local.ami"`)
 - In order to provide total parity `jq` functionality, `tq` just shells out to `jq`. We could have probably somehow imported [`gojq`](https://github.com/itchyny/gojq), but did not want to sacrifice functionality for the sake of having a standalone binary when most development environments contain `jq` anyway
@@ -314,5 +314,5 @@ a reliable way to convert bidirectionally between Terraform to JSON.
 
 The following alternatives were considered prior to `tq` being made:
 
-- [`hlcdec`](https://github.com/hashicorp/hcl/tree/main/cmd/hcldec): This is extremely powerful as it is closely tied into the rest of the Terraform codebase. However, it relies on a pre-existing spec file. This does not work if you want to operate dynamically on any .tf file. You can only also only convert in one direction using the CLI (Go libraries can be used to convert from JSON to Terraform if you have a spec file)
+- [`hcldec`](https://github.com/hashicorp/hcl/tree/main/cmd/hcldec): This is extremely powerful as it is closely tied into the rest of the Terraform codebase. However, it relies on a pre-existing spec file. This does not work if you want to operate dynamically on any .tf file. You can only also only convert in one direction using the CLI (Go libraries can be used to convert from JSON to Terraform if you have a spec file)
 - [`hcl2json`](https://github.com/tmccombs/hcl2json): This is a third-party tool which will convert any HCL file to JSON. The JSON format is nice and readable (and could be easily piped into `jq`), but it does not provide any way to reliably convert the JSON back to .tf

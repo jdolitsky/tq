@@ -1,4 +1,4 @@
-package tq
+package cli
 
 import (
 	"strings"
@@ -8,7 +8,7 @@ import (
 	"github.com/lithammer/dedent"
 )
 
-func TestTQ(t *testing.T) {
+func TestQuery(t *testing.T) {
 	// Note: when adding tests here, be mindful of tabs (\t) vs. spaces
 	tests := []struct {
 		name      string
@@ -220,7 +220,7 @@ func TestTQ(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got, err := TQ(test.query, []byte(test.input))
+		got, err := Query(test.query, []byte(test.input))
 		if err != nil {
 			if test.shouldErr {
 				continue
