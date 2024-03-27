@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/hcl/v2/hclwrite"
-
 	"github.com/jdolitsky/tq/pkg/cli"
 	"github.com/jdolitsky/tq/pkg/tq"
 )
@@ -19,5 +17,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(hclwrite.Format(file.Bytes())))
+	fmt.Println(file)
 }

@@ -25,6 +25,10 @@ type (
 		Attributes map[string]string `json:"attributes"`
 		Body       TerraformFileBody `json:"body"`
 	}
+
+	HCLWriteFile struct {
+		*hclwrite.File
+	}
 )
 
 func ParseTerraform(b []byte) (*TerraformFile, error) {
@@ -32,17 +36,17 @@ func ParseTerraform(b []byte) (*TerraformFile, error) {
 	if diags.HasErrors() {
 		return nil, fmt.Errorf(diags.Error())
 	}
-	return Serialize(file), nil
+	return Serialize(&HCLWriteFile{file}), nil
 }
 
-func Serialize(file *hclwrite.File) *TerraformFile {
+func Serialize(file *HCLWriteFile) *TerraformFile {
 	tfFile := TerraformFile{
 		Body: tfBodyToBody(file.Body()),
 	}
 	return &tfFile
 }
 
-func ParseJSON(b []byte) (*hclwrite.File, error) {
+func ParseJSON(b []byte) (*HCLWriteFile, error) {
 	var tfFile TerraformFile
 	if err := json.Unmarshal(b, &tfFile); err != nil {
 		return nil, err
@@ -50,10 +54,18 @@ func ParseJSON(b []byte) (*hclwrite.File, error) {
 	return Deserialize(&tfFile), nil
 }
 
-func Deserialize(tfFile *TerraformFile) *hclwrite.File {
+func Deserialize(tfFile *TerraformFile) *HCLWriteFile {
 	file := hclwrite.NewEmptyFile()
 	transferBodyToHCLBody(tfFile.Body, file.Body(), 0)
-	return file
+	return &HCLWriteFile{file}
+}
+
+func (tfFile *TerraformFile) String() string {
+	return strings.TrimSuffix(string(hclwrite.Format(Deserialize(tfFile).Bytes())), "\n")
+}
+
+func (hclWriteFile *HCLWriteFile) String() string {
+	return strings.TrimSuffix(string(hclwrite.Format(hclWriteFile.Bytes())), "\n")
 }
 
 func tfBodyToBody(tfBody *hclwrite.Body) TerraformFileBody {

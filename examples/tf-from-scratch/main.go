@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 
-	"github.com/hashicorp/hcl/v2/hclwrite"
 	"github.com/jdolitsky/tq/pkg/tq"
 )
 
@@ -37,5 +36,5 @@ func main() {
 	file := tq.Deserialize(&tfFile)
 
 	// Pretty-print the Terraform
-	fmt.Print(string(hclwrite.Format(file.Bytes())))
+	fmt.Println(file)
 }
