@@ -273,7 +273,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/hashicorp/hcl/v2/hclwrite"
 	"github.com/jdolitsky/tq/pkg/tq"
 )
 

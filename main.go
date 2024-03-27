@@ -16,5 +16,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Print(string(tqb))
+	fmt.Println(string(tqb))
 }

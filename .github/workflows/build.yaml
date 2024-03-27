@@ -16,6 +16,11 @@ jobs:
           go-version: '1.22'
       - name: unit tests
         run: go test -v -cover ./...
+      - name: run example go programs
+        run: |
+          for d in $(find examples -type d -mindepth 1 -maxdepth 1); do
+            (set -x && go run $d/*.go)
+          done
       - name: build binaries
         run: |
           go build -o bin/tq main.go
