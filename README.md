@@ -302,7 +302,7 @@ func main() {
 	file := tq.Deserialize(tfFile)
 
 	// Pretty-print the Terraform
-	fmt.Print(string(hclwrite.Format(file.Bytes())))
+	fmt.Println(file)
 }
 ```
 
